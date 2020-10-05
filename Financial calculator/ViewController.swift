@@ -9,31 +9,28 @@
 import UIKit
 
 class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
-
-    struct Term {
-        var dateStart: Int //Date
-        var dateEnd: Int //Date
-        var percentage: Double
-    }
-    
-    struct Deposit {
-        var presentValue: Double?
-        var futureValue: Double?
-        var termsAndPercentages: [Term]
-    }
-    
-    var depositsArray: [Deposit] = []
     
     @IBOutlet weak var tableDeposits: UITableView!
     
+    // MARK: - Refresh
+    var refresh = UIRefreshControl()
+    @objc func handleRefresh() {
+        self.tableDeposits.reloadData()
+        refresh.endRefreshing()
+    }
     
+    // MARK: - View Did Load
     override func viewDidLoad() {
         super.viewDidLoad()
+        //MARK: - Refresh
+        refresh.addTarget(self, action: #selector(handleRefresh), for: .valueChanged)
+        tableDeposits.addSubview(refresh)
         
-        let term1 = Term(dateStart: 15, dateEnd: 17, percentage: 15)
-        let term2 = Term(dateStart: 18, dateEnd: 22, percentage: 19)
-        depositsArray.append(Deposit(presentValue: 100000, futureValue: nil, termsAndPercentages: [term1]))
-        depositsArray.append(Deposit(presentValue:  nil, futureValue: 300000, termsAndPercentages: [term1,term2]))
+        // MARK: - Add data
+//        let term1 = Term(dateStart: 15, dateEnd: 17, percentage: 15)
+//        let term2 = Term(dateStart: 18, dateEnd: 22, percentage: 19)
+//        depositsArray.append(Deposit(presentValue: 100000, futureValue: nil, termsAndPercentages: [term1]))
+//        depositsArray.append(Deposit(presentValue:  nil, futureValue: 300000, termsAndPercentages: [term1,term2]))
     }
     
     // MARK: - Число всіх рядків (numberOfRowsInSection)
