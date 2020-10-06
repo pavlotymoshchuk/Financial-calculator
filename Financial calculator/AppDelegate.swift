@@ -10,9 +10,9 @@ import UIKit
 import CoreData
 
 struct Term {
-    var dateStart: Int //Date
-    var dateEnd: Int //Date
-    var percentage: Double
+    var dateStart: String
+    var dateEnd: String
+    var percentage: Double?
 }
 
 struct Deposit {

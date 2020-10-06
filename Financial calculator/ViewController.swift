@@ -62,7 +62,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                 cell.indexLabel?.text = String(indexPath.row+1)
                 cell.dateStartLabel?.text = String(item.termsAndPercentages[0].dateStart)
                 cell.dateEndLabel?.text = String(item.termsAndPercentages[0].dateEnd)
-                cell.percentageLabel?.text = String(item.termsAndPercentages[0].percentage)+"%"
+                cell.percentageLabel?.text = String(item.termsAndPercentages[0].percentage!)+"%"
                 cell.presentValueLabel?.text = (item.presentValue != nil) ? "PV="+String(item.presentValue!) : "undefined"
                 cell.futureValueLabel?.text = (item.futureValue != nil) ? "FV="+String(item.futureValue!) : "undefined"
             } else {
