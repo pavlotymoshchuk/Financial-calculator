@@ -19,13 +19,17 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         refresh.endRefreshing()
     }
     
+    @objc func refreshing() {
+        self.tableDeposits.reloadData()
+    }
+    
     // MARK: - View Did Load
     override func viewDidLoad() {
         super.viewDidLoad()
         //MARK: - Refresh
         refresh.addTarget(self, action: #selector(handleRefresh), for: .valueChanged)
         tableDeposits.addSubview(refresh)
-        
+        NotificationCenter.default.addObserver(self, selector: #selector(self.refreshing), name: NSNotification.Name(rawValue: "newDataNotif"), object: nil)
         
         // MARK: - Add data
 //        let term1 = Term(dateStart: 15, dateEnd: 17, percentage: 15)

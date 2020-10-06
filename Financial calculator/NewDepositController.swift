@@ -31,6 +31,7 @@ class NewDepositController: UIViewController, UIPickerViewDelegate, UIPickerView
             let term2 = Term(dateStart: 18, dateEnd: 22, percentage: 19)
             depositsArray.append(Deposit(presentValue:  nil, futureValue: 300000, termsAndPercentages: [term1,term2]))
 
+            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "newDataNotif"), object: nil)
             dismiss(animated: true, completion: nil) // Dismissing NewDepositController
         } else {
             alert(alertTitle: "Unable to save", alertMessage: "Some parameters invalid", alertActionTitle: "Retry")
