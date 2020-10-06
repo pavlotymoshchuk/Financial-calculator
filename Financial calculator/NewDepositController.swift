@@ -17,10 +17,12 @@ class NewDepositController: UIViewController, UIPickerViewDelegate, UIPickerView
     @IBOutlet weak var presentOrFutureValueTextField: UITextField!
     
     let presentOrFutureValueArray = ["PV", "FV"]
-    var numberOfRowsInSection = 5
+    var numberOfRows = 1
         
+    // MARK: - View Did Load
     override func viewDidLoad() {
         super.viewDidLoad()
+        termsTableView.rowHeight = 100
     }
     
     // MARK: - Save Button
@@ -31,7 +33,7 @@ class NewDepositController: UIViewController, UIPickerViewDelegate, UIPickerView
             let term2 = Term(dateStart: 18, dateEnd: 22, percentage: 19)
             depositsArray.append(Deposit(presentValue:  nil, futureValue: 300000, termsAndPercentages: [term1,term2]))
 
-            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "newDataNotif"), object: nil)
+            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "newDataNotif"), object: nil) //refresh the tableView from another ViewController
             dismiss(animated: true, completion: nil) // Dismissing NewDepositController
         } else {
             alert(alertTitle: "Unable to save", alertMessage: "Some parameters invalid", alertActionTitle: "Retry")
@@ -41,6 +43,12 @@ class NewDepositController: UIViewController, UIPickerViewDelegate, UIPickerView
     // MARK: - Cancel Button
     @IBAction func cancelButton(_ sender: UIButton) {
         dismiss(animated: true, completion: nil)
+    }
+    
+    // MARK: - Add NewTermButton
+    @IBAction func addNewTermButton(_ sender: Any) {
+        numberOfRows+=1
+        self.termsTableView.reloadData()
     }
     
     // MARK: - Is string value for deposit
@@ -72,12 +80,13 @@ class NewDepositController: UIViewController, UIPickerViewDelegate, UIPickerView
     
     // MARK: - Число всіх рядків (numberOfRowsInSection)
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return numberOfRowsInSection
+        return numberOfRows
     }
     
     // MARK: - Заповнення рядків (cellForRowAt)
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if let cell = tableView.dequeueReusableCell(withIdentifier: "TermCell", for: indexPath) as? TermTableViewCell {
+            cell.numberLabel?.text = String(indexPath.row+1)
             return cell
         }
         return UITableViewCell()

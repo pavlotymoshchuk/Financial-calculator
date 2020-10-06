@@ -10,11 +10,13 @@ import UIKit
 
 class TermTableViewCell: UITableViewCell {
     
+    @IBOutlet weak var numberLabel: UILabel!
     @IBOutlet weak var startDateTermLabel: UILabel!
     @IBOutlet weak var endDateTermLabel: UILabel!
     @IBOutlet weak var startDateTermTextField: UITextField!
     @IBOutlet weak var endDateTermTextField: UITextField!
     @IBOutlet weak var percentageTermTextField: UITextField!
+    @IBOutlet weak var percenLabel: UILabel!
     
     override func awakeFromNib() {
         super.awakeFromNib()

@@ -16,6 +16,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     var refresh = UIRefreshControl()
     @objc func handleRefresh() {
         self.tableDeposits.reloadData()
+        self.tableDeposits.rowHeight = 82
         refresh.endRefreshing()
     }
     
@@ -54,7 +55,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                 cell.indexLabel?.text = String(indexPath.row+1)
                 cell.dateStartLabel?.text = String(item.termsAndPercentages[0].dateStart)
                 cell.dateEndLabel?.text = String(item.termsAndPercentages[item.termsAndPercentages.count-1].dateEnd)
-                cell.percentageLabel?.text = "%" // MARK: - Обчислити середню ставку відсотків
+                cell.percentageLabel?.text = "%" // TODO: Обчислити середню ставку відсотків
                 cell.presentValueLabel?.text = (item.presentValue != nil) ? "PV="+String(item.presentValue!) : "undefined"
                 cell.futureValueLabel?.text = (item.futureValue != nil) ? "FV="+String(item.futureValue!) : "undefined"
             } else if item.termsAndPercentages.count == 1 { // MARK: - Один термін
