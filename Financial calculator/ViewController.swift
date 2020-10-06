@@ -26,6 +26,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         refresh.addTarget(self, action: #selector(handleRefresh), for: .valueChanged)
         tableDeposits.addSubview(refresh)
         
+        
         // MARK: - Add data
 //        let term1 = Term(dateStart: 15, dateEnd: 17, percentage: 15)
 //        let term2 = Term(dateStart: 18, dateEnd: 22, percentage: 19)
@@ -41,7 +42,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     // MARK: - Заповнення рядків (cellForRowAt)
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell
     {
-        if let cell = tableView.dequeueReusableCell(withIdentifier: "MyCell", for: indexPath) as? TableViewCell
+        if let cell = tableView.dequeueReusableCell(withIdentifier: "DepositCell", for: indexPath) as? DepositTableViewCell
         {
             let item = depositsArray[indexPath.row]
             

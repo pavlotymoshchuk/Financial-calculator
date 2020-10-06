@@ -8,7 +8,7 @@
 
 import UIKit
 
-class TableViewCell: UITableViewCell {
+class DepositTableViewCell: UITableViewCell {
     
     @IBOutlet weak var indexLabel: UILabel!
     @IBOutlet weak var dateStartLabel: UILabel!

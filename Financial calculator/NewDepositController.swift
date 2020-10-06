@@ -10,15 +10,15 @@ import UIKit
 import AVFoundation
 import AudioToolbox
 
-class NewDepositController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource {
-
-    let presentOrFutureValueArray = ["PV", "FV"]
+class NewDepositController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UITableViewDelegate, UITableViewDataSource {
     
+    @IBOutlet weak var termsTableView: UITableView!
     @IBOutlet weak var presentOrFutureValuePickerView: UIPickerView!
-    
     @IBOutlet weak var presentOrFutureValueTextField: UITextField!
     
-    
+    let presentOrFutureValueArray = ["PV", "FV"]
+    var numberOfRowsInSection = 5
+        
     override func viewDidLoad() {
         super.viewDidLoad()
     }
@@ -30,7 +30,7 @@ class NewDepositController: UIViewController, UIPickerViewDelegate, UIPickerView
             let term1 = Term(dateStart: 15, dateEnd: 17, percentage: 15)
             let term2 = Term(dateStart: 18, dateEnd: 22, percentage: 19)
             depositsArray.append(Deposit(presentValue:  nil, futureValue: 300000, termsAndPercentages: [term1,term2]))
-            
+
             dismiss(animated: true, completion: nil) // Dismissing NewDepositController
         } else {
             alert(alertTitle: "Unable to save", alertMessage: "Some parameters invalid", alertActionTitle: "Retry")
@@ -69,6 +69,19 @@ class NewDepositController: UIViewController, UIPickerViewDelegate, UIPickerView
         self.present(alert, animated: true, completion: nil)
     }
     
+    // MARK: - Число всіх рядків (numberOfRowsInSection)
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return numberOfRowsInSection
+    }
+    
+    // MARK: - Заповнення рядків (cellForRowAt)
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        if let cell = tableView.dequeueReusableCell(withIdentifier: "TermCell", for: indexPath) as? TermTableViewCell {
+            return cell
+        }
+        return UITableViewCell()
+    }
+    
     // MARK: - Picker View
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
         return 1
@@ -76,7 +89,6 @@ class NewDepositController: UIViewController, UIPickerViewDelegate, UIPickerView
     
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
         return presentOrFutureValueArray.count
-        
     }
     
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
