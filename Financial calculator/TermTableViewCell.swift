@@ -24,10 +24,11 @@ class TermTableViewCell: UITableViewCell, UITextFieldDelegate {
 
         let toolbar = UIToolbar();
         toolbar.sizeToFit()
-
-        let doneButton = UIBarButtonItem(title: "Done", style: UIBarButtonItem.Style.bordered, target: self, action: #selector(doneDatePickerForStartDate))
+        
+        let cancelButton = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(cancelDatePicker))
         let spaceButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.flexibleSpace, target: nil, action: nil)
-        let cancelButton = UIBarButtonItem(title: "Cancel", style: UIBarButtonItem.Style.bordered, target: self, action: #selector(cancelDatePicker))
+        let doneButton = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(doneDatePickerForStartDate))
+
         toolbar.setItems([doneButton,spaceButton,cancelButton], animated: false)
 
         startDateTermTextField.inputAccessoryView = toolbar
@@ -40,9 +41,11 @@ class TermTableViewCell: UITableViewCell, UITextFieldDelegate {
         let toolbar = UIToolbar();
         toolbar.sizeToFit()
 
-        let doneButton = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(donedatePickerForEndDate))
-        let spaceButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.flexibleSpace, target: nil, action: nil)
+        
         let cancelButton = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(cancelDatePicker))
+        let spaceButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.flexibleSpace, target: nil, action: nil)
+        let doneButton = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(donedatePickerForEndDate))
+        
         toolbar.setItems([doneButton,spaceButton,cancelButton], animated: true)
 
         endDateTermTextField.inputAccessoryView = toolbar
@@ -50,11 +53,9 @@ class TermTableViewCell: UITableViewCell, UITextFieldDelegate {
     }
     
     @objc func doneDatePickerForStartDate() {
-        //For date formate
         let formatter = DateFormatter()
         formatter.dateFormat = "dd.MM.yyyy"
         startDateTermTextField.text = formatter.string(from: datePicker.date)
-
         self.contentView.endEditing(true)
     }
     
@@ -62,12 +63,10 @@ class TermTableViewCell: UITableViewCell, UITextFieldDelegate {
         let formatter = DateFormatter()
         formatter.dateFormat = "dd.MM.yyyy"
         endDateTermTextField.text = formatter.string(from: datePicker.date)
-
         self.contentView.endEditing(true)
     }
 
     @objc func cancelDatePicker() {
-        //cancel button dismiss datepicker dialog
         self.contentView.endEditing(true)
     }
     
@@ -75,10 +74,8 @@ class TermTableViewCell: UITableViewCell, UITextFieldDelegate {
         super.awakeFromNib()
         startDateTermTextField.delegate = self
         startDateTermTextField.addTarget(self, action: #selector(showDatePickerForStartDate), for: .editingDidBegin)
-        
         endDateTermTextField.delegate = self
         endDateTermTextField.addTarget(self, action: #selector(showDatePickerForEndDate), for: .editingDidBegin)
-
     }
     
     override func setSelected(_ selected: Bool, animated: Bool) {
