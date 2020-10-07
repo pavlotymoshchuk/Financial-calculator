@@ -16,7 +16,7 @@ class NewDepositController: UIViewController, UIPickerViewDelegate, UIPickerView
     @IBOutlet weak var presentOrFutureValuePickerView: UIPickerView!
     @IBOutlet weak var presentOrFutureValueTextField: UITextField!
     
-    let presentOrFutureValueArray = ["PV", "FV"]
+    let presentOrFutureValueArray = ["PV", "FV"]  
     var numberOfRows = 1
         
     // MARK: - View Did Load
@@ -47,7 +47,8 @@ class NewDepositController: UIViewController, UIPickerViewDelegate, UIPickerView
     
     // MARK: - Add NewTermButton
     @IBAction func addNewTermButton(_ sender: Any) {
-        numberOfRows < 4 ? numberOfRows+=1 : alert(alertTitle: "Unable to add", alertMessage: "The maximum count of terms are reached", alertActionTitle: "Ok")
+        let numberOfRowsMax = (UIScreen.main.bounds.height - termsTableView.frame.origin.y) / 100
+        numberOfRows < Int(numberOfRowsMax) ? numberOfRows+=1 : alert(alertTitle: "Unable to add", alertMessage: "The maximum count of terms are reached", alertActionTitle: "Ok")
         self.termsTableView.reloadData()
     }
     
@@ -71,11 +72,25 @@ class NewDepositController: UIViewController, UIPickerViewDelegate, UIPickerView
         return answer
     }
     
-    // TODO: Checking for date intersection
+    // MARK: Checking for date intersection
     func checkingForDateIntersection(_ terms: [Term]) -> Bool {
         var answer = true
+        let formatter = DateFormatter()
+        formatter.dateFormat = "dd.MM.yyyy"
+        for term in terms {
+            if formatter.date(from: term.dateEnd)! <= formatter.date(from: term.dateStart)! {
+                answer = false
+                break
+            }
+        }
+        for i in 1 ..< terms.count {
+            if formatter.date(from: terms[i-1].dateEnd)! > formatter.date(from: terms[i].dateStart)! {
+                answer = false
+                break
+            }
+        }
         if !answer {
-            alert(alertTitle: "Unable to save", alertMessage: "Terms`s dates intersects", alertActionTitle: "Retry")
+            alert(alertTitle: "Unable to save", alertMessage: "Terms`s dates are incorrect", alertActionTitle: "Retry")
         }
         return answer
     }
