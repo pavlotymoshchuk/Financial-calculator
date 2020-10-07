@@ -23,39 +23,20 @@ class NewDepositController: UIViewController, UIPickerViewDelegate, UIPickerView
     override func viewDidLoad() {
         super.viewDidLoad()
         termsTableView.rowHeight = 100
+        var frame = termsTableView.frame
+        frame.size.height = termsTableView.contentSize.height
+        termsTableView.frame = frame
     }
     
     // MARK: - Save Button
     @IBAction func saveButton(_ sender: UIButton) {
         if stringIsNumber(rawString: presentOrFutureValueTextField.text!) {
-            // Getting terms data and checking for invalid values
             var terms:[Term] = []
-            for i in 0..<numberOfRows {
-                let cell = termsTableView.cellForRow(at: IndexPath(row: i, section: 0)) as! TermTableViewCell
-                let dateStart = cell.startDateTermTextField.text!
-                let dateEnd = cell.endDateTermTextField.text!
-                let percentage = cell.percentageTermTextField.text!
-                
-                if stringIsNumber(rawString: percentage) && stringIsDate(rawSrring: dateStart) && stringIsDate(rawSrring: dateEnd) {
-                    terms.append(Term(dateStart: dateStart, dateEnd: dateEnd, percentage: Double(percentage)))
-                } else {
-                    alert(alertTitle: "Unable to save", alertMessage: "Term parameters invalid", alertActionTitle: "Retry")
+            if gettingTerms(&terms) {
+                if checkingForDateIntersection(terms) {
+                    addingNewDeposit(terms)
                 }
             }
-            
-            // TODO: Adding new deposit and calculating values
-            if presentOrFutureValuePickerView.selectedRow(inComponent: 0) == 0 {
-                // Case presentValue
-                depositsArray.append(Deposit(presentValue:  Double(presentOrFutureValueTextField.text!), futureValue: nil, termsAndPercentages: terms))
-            } else {
-                // Case futureValue
-                depositsArray.append(Deposit(presentValue: nil, futureValue: Double(presentOrFutureValueTextField.text!), termsAndPercentages: terms))
-            }
-
-            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "newDataNotif"), object: nil) //refresh the tableView from another ViewController
-            dismiss(animated: true, completion: nil) // Dismissing NewDepositController
-        } else {
-            alert(alertTitle: "Unable to save", alertMessage: "Value parameter invalid", alertActionTitle: "Retry")
         }
     }
     
@@ -66,8 +47,55 @@ class NewDepositController: UIViewController, UIPickerViewDelegate, UIPickerView
     
     // MARK: - Add NewTermButton
     @IBAction func addNewTermButton(_ sender: Any) {
-        numberOfRows+=1
+        numberOfRows < 4 ? numberOfRows+=1 : alert(alertTitle: "Unable to add", alertMessage: "The maximum count of terms are reached", alertActionTitle: "Ok")
         self.termsTableView.reloadData()
+    }
+    
+    // MARK: - Getting terms data and checking for invalid values
+    func gettingTerms(_ terms: inout [Term]) -> Bool {
+        var answer = true
+        let cells = self.termsTableView.visibleCells
+        for item in cells {
+            let cell = item as! TermTableViewCell
+            let dateStart = cell.startDateTermTextField.text!
+            let dateEnd = cell.endDateTermTextField.text!
+            let percentage = cell.percentageTermTextField.text!
+            
+            if stringIsNumber(rawString: percentage) && stringIsDate(rawSrring: dateStart) && stringIsDate(rawSrring: dateEnd) {
+                terms.append(Term(dateStart: dateStart, dateEnd: dateEnd, percentage: Double(percentage)))
+            } else {
+                alert(alertTitle: "Unable to save", alertMessage: "Term parameters invalid", alertActionTitle: "Retry")
+                answer = false
+            }
+        }
+        return answer
+    }
+    
+    // TODO: Checking for date intersection
+    func checkingForDateIntersection(_ terms: [Term]) -> Bool {
+        var answer = true
+        if !answer {
+            alert(alertTitle: "Unable to save", alertMessage: "Terms`s dates intersects", alertActionTitle: "Retry")
+        }
+        return answer
+    }
+    
+    // MARK: - Adding new deposit
+    func addingNewDeposit(_ terms: [Term]) {
+        if presentOrFutureValuePickerView.selectedRow(inComponent: 0) == 0 {
+            // Case presentValue
+            // TODO: calculate values
+            let futureValue = 0.0
+            depositsArray.append(Deposit(presentValue:  Double(presentOrFutureValueTextField.text!), futureValue: futureValue, termsAndPercentages: terms))
+        } else {
+            // Case futureValue
+            // TODO: calculate values
+            let presentValue = 0.0
+            depositsArray.append(Deposit(presentValue: presentValue, futureValue: Double(presentOrFutureValueTextField.text!), termsAndPercentages: terms))
+        }
+        // MARK: - Refreshing the tableView from another ViewController
+        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "newDataNotif"), object: nil)
+        dismiss(animated: true, completion: nil) // Dismissing NewDepositController
     }
     
     // MARK: - Is string value for deposit
@@ -84,13 +112,16 @@ class NewDepositController: UIViewController, UIPickerViewDelegate, UIPickerView
             print("NOT A VALUE:", rawString)
             answer = false
         }
+        if !answer {
+            alert(alertTitle: "Unable to save", alertMessage: "Value parameter invalid", alertActionTitle: "Retry")
+        }
         return answer
     }
     
-    // TODO: - Is string value for term date
+    // MARK: - Is string value for term date
     func stringIsDate(rawSrring: String) -> Bool {
         var answer = true
-        if rawSrring.count > 10 {
+        if rawSrring.count != 10 {
             answer = false
         } else {
             for item in rawSrring {
@@ -102,15 +133,15 @@ class NewDepositController: UIViewController, UIPickerViewDelegate, UIPickerView
         }
         return answer
     }
+    
     // MARK: - Make ALERT
-    func alert(alertTitle: String, alertMessage: String, alertActionTitle: String)
-    {
-        AudioServicesPlaySystemSound(SystemSoundID(4095))
-        let alert = UIAlertController(title: alertTitle, message: alertMessage, preferredStyle: .alert)
-        let action = UIAlertAction(title: alertActionTitle, style: .cancel) { (action) in }
-        alert.addAction(action)
-        self.present(alert, animated: true, completion: nil)
-    }
+    func alert(alertTitle: String, alertMessage: String, alertActionTitle: String) {
+    AudioServicesPlaySystemSound(SystemSoundID(4095))
+    let alert = UIAlertController(title: alertTitle, message: alertMessage, preferredStyle: .alert)
+    let action = UIAlertAction(title: alertActionTitle, style: .cancel) { (action) in }
+    alert.addAction(action)
+    self.present(alert, animated: true, completion: nil)
+}
     
     // MARK: - Число всіх рядків (numberOfRowsInSection)
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -127,10 +158,10 @@ class NewDepositController: UIViewController, UIPickerViewDelegate, UIPickerView
     }
     
     // MARK: - Picker View
-            
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         
     }
+    
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
         return 1
     }
