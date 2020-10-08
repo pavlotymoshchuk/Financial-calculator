@@ -31,10 +31,17 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         refresh.addTarget(self, action: #selector(handleRefresh), for: .valueChanged)
         tableDeposits.addSubview(refresh)
         NotificationCenter.default.addObserver(self, selector: #selector(self.refreshing), name: NSNotification.Name(rawValue: "newDataNotif"), object: nil)
-        
         // MARK: - Add data
-//        let term1 = Term(dateStart: 15, dateEnd: 17, percentage: 15)
-//        depositsArray.append(Deposit(presentValue: 100000, futureValue: nil, termsAndPercentages: [term1]))
+        addStartData()
+    }
+    
+    func addStartData() {
+        let term1 = Term(dateStart: "15.01.2020", dateEnd: "17.01.2020", percentage: 15)
+        let term2 = Term(dateStart: "15.02.2020", dateEnd: "17.02.2020", percentage: 13)
+        let term3 = Term(dateStart: "15.03.2020", dateEnd: "17.03.2020", percentage: 11)
+        depositsArray.append(Deposit(presentValue: 10000, futureValue: 12000, termsAndPercentages: [term1]))
+        depositsArray.append(Deposit(presentValue: 50000, futureValue: 80000, termsAndPercentages: [term1, term2]))
+        depositsArray.append(Deposit(presentValue: 100000, futureValue: 120000, termsAndPercentages: [term1, term2, term3]))
     }
     
     // MARK: - Число всіх рядків (numberOfRowsInSection)
@@ -49,19 +56,19 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             if item.termsAndPercentages.count > 1 {
                 // MARK: - Більше одного терміна
                 cell.indexLabel?.text = String(indexPath.row+1)
-                cell.dateStartLabel?.text = String(item.termsAndPercentages[0].dateStart)
-                cell.dateEndLabel?.text = String(item.termsAndPercentages[item.termsAndPercentages.count-1].dateEnd)
-                cell.percentageLabel?.text = "%" // TODO: Обчислити середню ставку відсотків
-                cell.presentValueLabel?.text = (item.presentValue != nil) ? "PV="+String(item.presentValue!) : "undefined"
-                cell.futureValueLabel?.text = (item.futureValue != nil) ? "FV="+String(item.futureValue!) : "undefined"
+                cell.dateStartLabel?.text = item.termsAndPercentages[0].dateStart
+                cell.dateEndLabel?.text = item.termsAndPercentages[item.termsAndPercentages.count-1].dateEnd
+                cell.percentageLabel?.text = String(item.termsAndPercentages[0].percentage!) + "%"
+                cell.presentValueLabel?.text = (item.presentValue != nil) ? "PV="+String(item.presentValue!) : "Undefined"
+                cell.futureValueLabel?.text = (item.futureValue != nil) ? "FV="+String(item.futureValue!) : "Undefined"
             } else if item.termsAndPercentages.count == 1 {
                 // MARK: - Один термін
                 cell.indexLabel?.text = String(indexPath.row+1)
-                cell.dateStartLabel?.text = String(item.termsAndPercentages[0].dateStart)
-                cell.dateEndLabel?.text = String(item.termsAndPercentages[0].dateEnd)
-                cell.percentageLabel?.text = String(item.termsAndPercentages[0].percentage!)+"%"
-                cell.presentValueLabel?.text = (item.presentValue != nil) ? "PV="+String(item.presentValue!) : "undefined"
-                cell.futureValueLabel?.text = (item.futureValue != nil) ? "FV="+String(item.futureValue!) : "undefined"
+                cell.dateStartLabel?.text = item.termsAndPercentages[0].dateStart
+                cell.dateEndLabel?.text = item.termsAndPercentages[0].dateEnd
+                cell.percentageLabel?.text = String(item.termsAndPercentages[0].percentage!) + "%"
+                cell.presentValueLabel?.text = (item.presentValue != nil) ? "PV="+String(item.presentValue!) : "Undefined"
+                cell.futureValueLabel?.text = (item.futureValue != nil) ? "FV="+String(item.futureValue!) : "Undefined"
             } else {
                 // BUG
                 print("!!!BUG!!!")
@@ -71,6 +78,22 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         return UITableViewCell()
     }
 
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        depositIndex = indexPath.row
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let vc = storyboard.instantiateViewController(withIdentifier: "DetailDeposit")
+        self.present(vc, animated: true, completion: nil)
+        
+        tableView.deselectRow(at: indexPath, animated: true)
+    }
+    
+    @objc func dis() {
+        dismiss(animated: true, completion: nil)
+    }
+    
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+    }
 
 }
 

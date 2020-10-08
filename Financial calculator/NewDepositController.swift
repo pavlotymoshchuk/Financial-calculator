@@ -72,6 +72,25 @@ class NewDepositController: UIViewController, UIPickerViewDelegate, UIPickerView
         return answer
     }
     
+    // MARK: - Adding new deposit
+    func addingNewDeposit(_ terms: [Term]) {
+        // TODO: Обчислити середню ставку відсотків
+        if presentOrFutureValuePickerView.selectedRow(inComponent: 0) == 0 {
+            // Case presentValue
+            // TODO: calculate values
+            let futureValue = 0.0
+            depositsArray.append(Deposit(presentValue:  Double(presentOrFutureValueTextField.text!), futureValue: futureValue, termsAndPercentages: terms))
+        } else {
+            // Case futureValue
+            // TODO: calculate values
+            let presentValue = 0.0
+            depositsArray.append(Deposit(presentValue: presentValue, futureValue: Double(presentOrFutureValueTextField.text!), termsAndPercentages: terms))
+        }
+        // MARK: - Refreshing the tableView from another ViewController
+        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "newDataNotif"), object: nil)
+        dismiss(animated: true, completion: nil) // Dismissing NewDepositController
+    }
+    
     // MARK: Checking for date intersection
     func checkingForDateIntersection(_ terms: [Term]) -> Bool {
         var answer = true
@@ -94,25 +113,7 @@ class NewDepositController: UIViewController, UIPickerViewDelegate, UIPickerView
         }
         return answer
     }
-    
-    // MARK: - Adding new deposit
-    func addingNewDeposit(_ terms: [Term]) {
-        if presentOrFutureValuePickerView.selectedRow(inComponent: 0) == 0 {
-            // Case presentValue
-            // TODO: calculate values
-            let futureValue = 0.0
-            depositsArray.append(Deposit(presentValue:  Double(presentOrFutureValueTextField.text!), futureValue: futureValue, termsAndPercentages: terms))
-        } else {
-            // Case futureValue
-            // TODO: calculate values
-            let presentValue = 0.0
-            depositsArray.append(Deposit(presentValue: presentValue, futureValue: Double(presentOrFutureValueTextField.text!), termsAndPercentages: terms))
-        }
-        // MARK: - Refreshing the tableView from another ViewController
-        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "newDataNotif"), object: nil)
-        dismiss(animated: true, completion: nil) // Dismissing NewDepositController
-    }
-    
+        
     // MARK: - Is string value for deposit
     func stringIsNumber(rawString: String) -> Bool {
         var answer = true

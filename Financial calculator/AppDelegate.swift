@@ -22,6 +22,7 @@ struct Deposit {
 }
 
 var depositsArray: [Deposit] = []
+var depositIndex = 0
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
