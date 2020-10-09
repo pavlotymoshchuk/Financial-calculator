@@ -8,10 +8,10 @@
 
 /* Begin PBXBuildFile section */
 		041E9931252C652500D338B8 /* TermTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 041E9930252C652500D338B8 /* TermTableViewCell.swift */; };
-		042525EA252F5174004B4F9B /* DetailDepositTermsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 042525E9252F5174004B4F9B /* DetailDepositTermsTableViewCell.swift */; };
-		044ED410252EFE8D004DF05F /* DetailDepositViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 044ED40F252EFE8D004DF05F /* DetailDepositViewController.swift */; };
-		0474B60D252879F2005613D9 /* DepositTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0474B60C252879F2005613D9 /* DepositTableViewCell.swift */; };
-		0474B60F2528889D005613D9 /* NewDepositController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0474B60E2528889D005613D9 /* NewDepositController.swift */; };
+		042525EA252F5174004B4F9B /* DetailCreditTermsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 042525E9252F5174004B4F9B /* DetailCreditTermsTableViewCell.swift */; };
+		044ED410252EFE8D004DF05F /* DetailCreditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 044ED40F252EFE8D004DF05F /* DetailCreditViewController.swift */; };
+		0474B60D252879F2005613D9 /* CreditTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0474B60C252879F2005613D9 /* CreditTableViewCell.swift */; };
+		0474B60F2528889D005613D9 /* NewCreditController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0474B60E2528889D005613D9 /* NewCreditController.swift */; };
 		04F79156252713E900829DF5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04F79155252713E900829DF5 /* AppDelegate.swift */; };
 		04F79158252713E900829DF5 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04F79157252713E900829DF5 /* SceneDelegate.swift */; };
 		04F7915A252713E900829DF5 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04F79159252713E900829DF5 /* ViewController.swift */; };
@@ -23,10 +23,10 @@
 
 /* Begin PBXFileReference section */
 		041E9930252C652500D338B8 /* TermTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermTableViewCell.swift; sourceTree = "<group>"; };
-		042525E9252F5174004B4F9B /* DetailDepositTermsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailDepositTermsTableViewCell.swift; sourceTree = "<group>"; };
-		044ED40F252EFE8D004DF05F /* DetailDepositViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailDepositViewController.swift; sourceTree = "<group>"; };
-		0474B60C252879F2005613D9 /* DepositTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DepositTableViewCell.swift; sourceTree = "<group>"; };
-		0474B60E2528889D005613D9 /* NewDepositController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewDepositController.swift; sourceTree = "<group>"; };
+		042525E9252F5174004B4F9B /* DetailCreditTermsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailCreditTermsTableViewCell.swift; sourceTree = "<group>"; };
+		044ED40F252EFE8D004DF05F /* DetailCreditViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailCreditViewController.swift; sourceTree = "<group>"; };
+		0474B60C252879F2005613D9 /* CreditTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreditTableViewCell.swift; sourceTree = "<group>"; };
+		0474B60E2528889D005613D9 /* NewCreditController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewCreditController.swift; sourceTree = "<group>"; };
 		04F79152252713E900829DF5 /* Financial calculator.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Financial calculator.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		04F79155252713E900829DF5 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		04F79157252713E900829DF5 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -73,10 +73,10 @@
 				04F79155252713E900829DF5 /* AppDelegate.swift */,
 				04F79157252713E900829DF5 /* SceneDelegate.swift */,
 				04F79159252713E900829DF5 /* ViewController.swift */,
-				0474B60C252879F2005613D9 /* DepositTableViewCell.swift */,
-				044ED40F252EFE8D004DF05F /* DetailDepositViewController.swift */,
-				042525E9252F5174004B4F9B /* DetailDepositTermsTableViewCell.swift */,
-				0474B60E2528889D005613D9 /* NewDepositController.swift */,
+				0474B60C252879F2005613D9 /* CreditTableViewCell.swift */,
+				044ED40F252EFE8D004DF05F /* DetailCreditViewController.swift */,
+				042525E9252F5174004B4F9B /* DetailCreditTermsTableViewCell.swift */,
+				0474B60E2528889D005613D9 /* NewCreditController.swift */,
 				041E9930252C652500D338B8 /* TermTableViewCell.swift */,
 				04F7915B252713E900829DF5 /* Main.storyboard */,
 				04F79161252713EA00829DF5 /* Assets.xcassets */,
@@ -158,15 +158,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0474B60D252879F2005613D9 /* DepositTableViewCell.swift in Sources */,
-				0474B60F2528889D005613D9 /* NewDepositController.swift in Sources */,
-				044ED410252EFE8D004DF05F /* DetailDepositViewController.swift in Sources */,
+				0474B60D252879F2005613D9 /* CreditTableViewCell.swift in Sources */,
+				0474B60F2528889D005613D9 /* NewCreditController.swift in Sources */,
+				044ED410252EFE8D004DF05F /* DetailCreditViewController.swift in Sources */,
 				04F7915A252713E900829DF5 /* ViewController.swift in Sources */,
 				04F79160252713E900829DF5 /* Financial_calculator.xcdatamodeld in Sources */,
 				04F79156252713E900829DF5 /* AppDelegate.swift in Sources */,
 				04F79158252713E900829DF5 /* SceneDelegate.swift in Sources */,
 				041E9931252C652500D338B8 /* TermTableViewCell.swift in Sources */,
-				042525EA252F5174004B4F9B /* DetailDepositTermsTableViewCell.swift in Sources */,
+				042525EA252F5174004B4F9B /* DetailCreditTermsTableViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

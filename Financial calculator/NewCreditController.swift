@@ -10,7 +10,7 @@ import UIKit
 import AVFoundation
 import AudioToolbox
 
-class NewDepositController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UITableViewDelegate, UITableViewDataSource {
+class NewCreditController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UITableViewDelegate, UITableViewDataSource {
     
     @IBOutlet weak var termsTableView: UITableView!
     @IBOutlet weak var presentOrFutureValuePickerView: UIPickerView!
@@ -34,7 +34,7 @@ class NewDepositController: UIViewController, UIPickerViewDelegate, UIPickerView
             var terms:[Term] = []
             if gettingTerms(&terms) {
                 if checkingForDateIntersection(terms) {
-                    addingNewDeposit(terms)
+                    addingNewCredit(terms)
                 }
             }
         }
@@ -73,22 +73,22 @@ class NewDepositController: UIViewController, UIPickerViewDelegate, UIPickerView
     }
     
     // MARK: - Adding new deposit
-    func addingNewDeposit(_ terms: [Term]) {
-        // TODO: Обчислити середню ставку відсотків
+    func addingNewCredit(_ terms: [Term]) {
+        // TODO: Обчислити середню облікову ставку
         if presentOrFutureValuePickerView.selectedRow(inComponent: 0) == 0 {
             // Case presentValue
             // TODO: calculate values
             let futureValue = 0.0
-            depositsArray.append(Deposit(presentValue:  Double(presentOrFutureValueTextField.text!), futureValue: futureValue, termsAndPercentages: terms))
+            creditsArray.append(Credit(presentValue:  Double(presentOrFutureValueTextField.text!), futureValue: futureValue, termsAndPercentages: terms))
         } else {
             // Case futureValue
             // TODO: calculate values
             let presentValue = 0.0
-            depositsArray.append(Deposit(presentValue: presentValue, futureValue: Double(presentOrFutureValueTextField.text!), termsAndPercentages: terms))
+            creditsArray.append(Credit(presentValue: presentValue, futureValue: Double(presentOrFutureValueTextField.text!), termsAndPercentages: terms))
         }
         // MARK: - Refreshing the tableView from another ViewController
         NotificationCenter.default.post(name: NSNotification.Name(rawValue: "newDataNotif"), object: nil)
-        dismiss(animated: true, completion: nil) // Dismissing NewDepositController
+        dismiss(animated: true, completion: nil) // Dismissing NewCreditController
     }
     
     // MARK: Checking for date intersection

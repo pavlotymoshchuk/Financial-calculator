@@ -15,14 +15,14 @@ struct Term {
     var percentage: Double?
 }
 
-struct Deposit {
+struct Credit {
     var presentValue: Double?
     var futureValue: Double?
     var termsAndPercentages: [Term]
 }
 
-var depositsArray: [Deposit] = []
-var depositIndex = 0
+var creditsArray: [Credit] = []
+var creditIndex = 0
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {

@@ -10,18 +10,18 @@ import UIKit
 
 class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
-    @IBOutlet weak var tableDeposits: UITableView!
+    @IBOutlet weak var tableСredits: UITableView!
     
     // MARK: - Refresh
     var refresh = UIRefreshControl()
     @objc func handleRefresh() {
-        self.tableDeposits.reloadData()
-        self.tableDeposits.rowHeight = 82
+        self.tableСredits.reloadData()
+        self.tableСredits.rowHeight = 82
         refresh.endRefreshing()
     }
     
     @objc func refreshing() {
-        self.tableDeposits.reloadData()
+        self.tableСredits.reloadData()
     }
     
     // MARK: - View Did Load
@@ -29,7 +29,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         super.viewDidLoad()
         //MARK: - Refresh UITableView
         refresh.addTarget(self, action: #selector(handleRefresh), for: .valueChanged)
-        tableDeposits.addSubview(refresh)
+        tableСredits.addSubview(refresh)
         NotificationCenter.default.addObserver(self, selector: #selector(self.refreshing), name: NSNotification.Name(rawValue: "newDataNotif"), object: nil)
         // MARK: - Add data
         addStartData()
@@ -39,20 +39,20 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         let term1 = Term(dateStart: "15.01.2020", dateEnd: "17.01.2020", percentage: 15)
         let term2 = Term(dateStart: "15.02.2020", dateEnd: "17.02.2020", percentage: 13)
         let term3 = Term(dateStart: "15.03.2020", dateEnd: "17.03.2020", percentage: 11)
-        depositsArray.append(Deposit(presentValue: 10000, futureValue: 12000, termsAndPercentages: [term1]))
-        depositsArray.append(Deposit(presentValue: 50000, futureValue: 80000, termsAndPercentages: [term1, term2]))
-        depositsArray.append(Deposit(presentValue: 100000, futureValue: 120000, termsAndPercentages: [term1, term2, term3]))
+        creditsArray.append(Credit(presentValue: 10000, futureValue: 12000, termsAndPercentages: [term1]))
+        creditsArray.append(Credit(presentValue: 50000, futureValue: 80000, termsAndPercentages: [term1, term2]))
+        creditsArray.append(Credit(presentValue: 100000, futureValue: 120000, termsAndPercentages: [term1, term2, term3]))
     }
     
     // MARK: - Число всіх рядків (numberOfRowsInSection)
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return depositsArray.count
+        return creditsArray.count
     }
     
     // MARK: - Заповнення рядків (cellForRowAt)
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        if let cell = tableView.dequeueReusableCell(withIdentifier: "DepositCell", for: indexPath) as? DepositTableViewCell {
-            let item = depositsArray[indexPath.row]
+        if let cell = tableView.dequeueReusableCell(withIdentifier: "CreditCell", for: indexPath) as? CreditTableViewCell {
+            let item = creditsArray[indexPath.row]
             if item.termsAndPercentages.count > 1 {
                 // MARK: - Більше одного терміна
                 cell.indexLabel?.text = String(indexPath.row+1)
@@ -79,9 +79,9 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        depositIndex = indexPath.row
+        creditIndex = indexPath.row
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        let vc = storyboard.instantiateViewController(withIdentifier: "DetailDeposit")
+        let vc = storyboard.instantiateViewController(withIdentifier: "DetailCredit")
         self.present(vc, animated: true, completion: nil)
         
         tableView.deselectRow(at: indexPath, animated: true)

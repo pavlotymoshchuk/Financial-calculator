@@ -15,7 +15,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Active deposits" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Y1u-7r-j6B">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Active credits" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Y1u-7r-j6B">
                                 <rect key="frame" x="16" y="47" width="228" height="42"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="30"/>
@@ -31,12 +31,12 @@
                                     <segue destination="CFV-lb-cT7" kind="presentation" id="Kvk-wY-fEr"/>
                                 </connections>
                             </button>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="82" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="KZS-26-leW">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="82" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="KZS-26-leW" userLabel="Table Credits">
                                 <rect key="frame" x="0.0" y="107" width="375" height="560"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="DepositCell" rowHeight="82" id="0Aa-yT-zoA" customClass="DepositTableViewCell" customModule="Financial_calculator" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="CreditCell" rowHeight="82" id="0Aa-yT-zoA" customClass="CreditTableViewCell" customModule="Financial_calculator" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="375" height="82"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="0Aa-yT-zoA" id="Um8-8W-C5Z">
@@ -108,17 +108,17 @@
                     </view>
                     <navigationItem key="navigationItem" id="xif-B9-RTb"/>
                     <connections>
-                        <outlet property="tableDeposits" destination="KZS-26-leW" id="rBo-tR-lwY"/>
+                        <outlet property="tableСredits" destination="KZS-26-leW" id="zMJ-XG-IvJ"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-79.200000000000003" y="97.601199400299862"/>
         </scene>
-        <!--New Deposit Controller-->
+        <!--New Credit Controller-->
         <scene sceneID="RNw-LQ-XP3">
             <objects>
-                <viewController storyboardIdentifier="NewDepositController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="CFV-lb-cT7" customClass="NewDepositController" customModule="Financial_calculator" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="NewDepositController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="CFV-lb-cT7" customClass="NewCreditController" customModule="Financial_calculator" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="KPh-5n-Tkc">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="647"/>
                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" heightSizable="YES" flexibleMaxY="YES"/>
@@ -141,8 +141,8 @@
                                     <action selector="saveButton:" destination="CFV-lb-cT7" eventType="touchUpInside" id="4ZC-4v-qo0"/>
                                 </connections>
                             </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="New deposit" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Fk8-Yz-UE5">
-                                <rect key="frame" x="127" y="37" width="120" height="27"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="New credit" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Fk8-Yz-UE5">
+                                <rect key="frame" x="136" y="37" width="103" height="27"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="22"/>
                                 <nil key="textColor"/>
@@ -261,10 +261,10 @@
             </objects>
             <point key="canvasLocation" x="669.60000000000002" y="97.601199400299862"/>
         </scene>
-        <!--Detail Deposit View Controller-->
+        <!--Detail Credit View Controller-->
         <scene sceneID="Wpb-tz-KQh">
             <objects>
-                <viewController storyboardIdentifier="DetailDeposit" useStoryboardIdentifierAsRestorationIdentifier="YES" id="7bA-BH-lPB" customClass="DetailDepositViewController" customModule="Financial_calculator" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="DetailCredit" useStoryboardIdentifierAsRestorationIdentifier="YES" id="7bA-BH-lPB" customClass="DetailCreditViewController" customModule="Financial_calculator" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="nJK-uT-UFO">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -301,12 +301,12 @@
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="1Or-Mo-3td">
+                                    <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="1Or-Mo-3td" userLabel="Detail Credit Table View">
                                         <rect key="frame" x="0.0" y="140" width="375" height="280"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES" flexibleMaxY="YES"/>
                                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                         <prototypes>
-                                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="DetailDepositTermCell" rowHeight="75" id="SpD-D5-YZN" customClass="DetailDepositTermsTableViewCell" customModule="Financial_calculator" customModuleProvider="target">
+                                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="DetailCreditTermCell" rowHeight="75" id="SpD-D5-YZN" userLabel="DetailCreditTermCell" customClass="DetailCreditTermsTableViewCell" customModule="Financial_calculator" customModuleProvider="target">
                                                 <rect key="frame" x="0.0" y="28" width="375" height="75"/>
                                                 <autoresizingMask key="autoresizingMask"/>
                                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="SpD-D5-YZN" id="07A-6C-bsL">
@@ -388,8 +388,8 @@
                                     <outlet property="delegate" destination="7bA-BH-lPB" id="y0h-mg-2gC"/>
                                 </connections>
                             </scrollView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Deposit №1" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ULd-g8-Tff">
-                                <rect key="frame" x="126" y="53" width="123" height="29"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Credit №1" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ULd-g8-Tff" userLabel="Credit Title Label">
+                                <rect key="frame" x="135" y="53" width="106" height="29"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="24"/>
                                 <nil key="textColor"/>
@@ -408,8 +408,8 @@
                         <viewLayoutGuide key="safeArea" id="1W9-E9-shf"/>
                     </view>
                     <connections>
-                        <outlet property="depositTitleLabel" destination="ULd-g8-Tff" id="Orh-ju-rDm"/>
-                        <outlet property="detailDepositTableView" destination="1Or-Mo-3td" id="ftq-3H-XlY"/>
+                        <outlet property="creditTitleLabel" destination="ULd-g8-Tff" id="1ga-Zh-C98"/>
+                        <outlet property="detailCreditTableView" destination="1Or-Mo-3td" id="ZLE-xn-mGf"/>
                         <outlet property="futureValueLabel" destination="r0l-XT-Thy" id="nkT-Ps-0fh"/>
                         <outlet property="presentValueLabel" destination="gqq-7V-FRW" id="ugO-Ki-wCi"/>
                         <outlet property="scrollView" destination="VnR-d9-CpF" id="aUi-6B-iCi"/>
