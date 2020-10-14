@@ -266,11 +266,11 @@
             <objects>
                 <viewController storyboardIdentifier="DetailCredit" useStoryboardIdentifierAsRestorationIdentifier="YES" id="7bA-BH-lPB" customClass="DetailCreditViewController" customModule="Financial_calculator" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="nJK-uT-UFO">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="700"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="VnR-d9-CpF">
-                                <rect key="frame" x="0.0" y="101" width="375" height="567"/>
+                                <rect key="frame" x="0.0" y="101" width="375" height="600"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="PV:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vHR-YE-WiR">
@@ -302,7 +302,7 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="1Or-Mo-3td" userLabel="Detail Credit Table View">
-                                        <rect key="frame" x="0.0" y="140" width="375" height="280"/>
+                                        <rect key="frame" x="0.0" y="143" width="375" height="263"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES" flexibleMaxY="YES"/>
                                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                         <prototypes>
@@ -377,15 +377,16 @@
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="b08-dv-yQh">
-                                        <rect key="frame" x="0.0" y="422" width="375" height="145"/>
-                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                    </imageView>
+                                    <view contentMode="scaleToFill" id="Pe3-vP-85q">
+                                        <rect key="frame" x="0.0" y="405" width="375" height="187"/>
+                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES" heightSizable="YES"/>
+                                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                    </view>
                                 </subviews>
                                 <viewLayoutGuide key="contentLayoutGuide" id="LXG-od-hsb"/>
                                 <viewLayoutGuide key="frameLayoutGuide" id="vjl-dI-O5x"/>
                                 <connections>
-                                    <outlet property="delegate" destination="7bA-BH-lPB" id="y0h-mg-2gC"/>
+                                    <outlet property="delegate" destination="7bA-BH-lPB" id="QTZ-ZD-ebY"/>
                                 </connections>
                             </scrollView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Credit №1" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ULd-g8-Tff" userLabel="Credit Title Label">
@@ -407,17 +408,19 @@
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <viewLayoutGuide key="safeArea" id="1W9-E9-shf"/>
                     </view>
+                    <size key="freeformSize" width="375" height="700"/>
                     <connections>
                         <outlet property="creditTitleLabel" destination="ULd-g8-Tff" id="1ga-Zh-C98"/>
                         <outlet property="detailCreditTableView" destination="1Or-Mo-3td" id="ZLE-xn-mGf"/>
                         <outlet property="futureValueLabel" destination="r0l-XT-Thy" id="nkT-Ps-0fh"/>
+                        <outlet property="graphViev" destination="Pe3-vP-85q" id="6OV-d3-O47"/>
                         <outlet property="presentValueLabel" destination="gqq-7V-FRW" id="ugO-Ki-wCi"/>
                         <outlet property="scrollView" destination="VnR-d9-CpF" id="aUi-6B-iCi"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="c6R-U4-i21" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1412" y="98"/>
+            <point key="canvasLocation" x="1356" y="112.44377811094454"/>
         </scene>
     </scenes>
     <resources>
