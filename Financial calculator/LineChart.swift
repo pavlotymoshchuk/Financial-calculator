@@ -246,7 +246,7 @@ open class LineChart: UIView {
         let xValue = point.location(in: self).x
         let inverted = self.x.invert(xValue - x.axis.inset)
         let rounded = Int(round(Double(inverted)))
-        let yValues: [CGFloat] = getYValuesForXValue(rounded)
+        var yValues: [CGFloat] = getYValuesForXValue(rounded)
         highlightDataPoints(rounded)
         delegate?.didSelectDataPoint(CGFloat(rounded), yValues: yValues)
     }

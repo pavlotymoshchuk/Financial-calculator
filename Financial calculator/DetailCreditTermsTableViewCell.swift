@@ -14,6 +14,7 @@ class DetailCreditTermsTableViewCell: UITableViewCell {
     @IBOutlet weak var termStartLabel: UILabel!
     @IBOutlet weak var termEndLabel: UILabel!
     @IBOutlet weak var percentageLabel: UILabel!
+    @IBOutlet weak var inflationLabel: UILabel!
     
     
     override func awakeFromNib() {

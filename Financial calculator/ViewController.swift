@@ -37,8 +37,8 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     func addStartData() {
         let term1 = Term(dateStart: "15.01.2020", dateEnd: "17.01.2020", percentage: 15)
-        let term2 = Term(dateStart: "15.02.2020", dateEnd: "17.02.2020", percentage: 13)
-        let term3 = Term(dateStart: "15.03.2020", dateEnd: "17.03.2020", percentage: 11)
+        let term2 = Term(dateStart: "15.02.2020", dateEnd: "17.02.2020", percentage: 13, inflation: 1)
+        let term3 = Term(dateStart: "15.03.2020", dateEnd: "17.03.2020", percentage: 11, inflation: 2.5)
         creditsArray.append(Credit(presentValue: 10000, futureValue: 12000, termsAndPercentages: [term1]))
         creditsArray.append(Credit(presentValue: 50000, futureValue: 80000, termsAndPercentages: [term1, term2]))
         creditsArray.append(Credit(presentValue: 100000, futureValue: 120000, termsAndPercentages: [term1, term2, term3]))

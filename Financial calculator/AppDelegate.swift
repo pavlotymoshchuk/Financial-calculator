@@ -13,6 +13,7 @@ struct Term {
     var dateStart: String
     var dateEnd: String
     var percentage: Double?
+    var inflation: Double?
 }
 
 struct Credit {
@@ -23,6 +24,33 @@ struct Credit {
 
 var creditsArray: [Credit] = []
 var creditIndex = 0
+
+func calculatePVOrFV(presentValue: Double?, futureValue: Double?, termStart: Date, termEnd: Date, percentage: Double, inflation: Double?) -> Double? {
+    var result: Double?
+    let calendar = Calendar.current
+    let countDays = calendar.component(.day, from: termEnd) - calendar.component(.day, from: termStart)
+    let countMonths = calendar.component(.month, from: termEnd) - calendar.component(.month, from: termStart)
+    let countYears = calendar.component(.year, from: termEnd) - calendar.component(.year, from: termStart)
+    let termDuration = Double(countYears * 360 + countMonths * 30 + countDays) / 360
+    if presentValue != nil {
+        if let inflationValue = inflation {
+            result = presentValue! * (1 + (percentage / 100 * termDuration)) * (1 + (inflationValue / 100 * termDuration))
+        } else {
+            result = presentValue! * (1 + (percentage / 100 * termDuration))
+        }
+    }
+    if futureValue != nil {
+        if let inflationValue = inflation {
+            result = futureValue! / (1 + (percentage / 100 * termDuration)) / (1 + (inflationValue / 100 * termDuration))
+        } else {
+            result = futureValue! / (1 + (percentage / 100 * termDuration))
+        }
+    }
+    if presentValue == nil && futureValue == nil {
+        result = nil
+    }
+    return result
+}
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {

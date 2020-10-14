@@ -61,9 +61,20 @@ class NewCreditController: UIViewController, UIPickerViewDelegate, UIPickerViewD
             let dateStart = cell.startDateTermTextField.text!
             let dateEnd = cell.endDateTermTextField.text!
             let percentage = cell.percentageTermTextField.text!
+            let inflationOn = cell.inflationSwitch.isOn
             
             if stringIsNumber(rawString: percentage) && stringIsDate(rawSrring: dateStart) && stringIsDate(rawSrring: dateEnd) {
-                terms.append(Term(dateStart: dateStart, dateEnd: dateEnd, percentage: Double(percentage)))
+                if inflationOn {
+                    let inflation = cell.inflationTermTextField.text!
+                    if stringIsNumber(rawString: inflation) {
+                        terms.append(Term(dateStart: dateStart, dateEnd: dateEnd, percentage: Double(percentage), inflation: Double(inflation)))
+                    } else {
+                        alert(alertTitle: "Unable to save", alertMessage: "Term parameters invalid", alertActionTitle: "Retry")
+                        answer = false
+                    }
+                } else {
+                    terms.append(Term(dateStart: dateStart, dateEnd: dateEnd, percentage: Double(percentage)))
+                }
             } else {
                 alert(alertTitle: "Unable to save", alertMessage: "Term parameters invalid", alertActionTitle: "Retry")
                 answer = false
@@ -72,19 +83,29 @@ class NewCreditController: UIViewController, UIPickerViewDelegate, UIPickerViewD
         return answer
     }
     
-    // MARK: - Adding new deposit
+    // MARK: - Adding new credit
     func addingNewCredit(_ terms: [Term]) {
         // TODO: Обчислити середню облікову ставку
+        let formatter = DateFormatter()
+        formatter.dateFormat = "dd.MM.yyyy"
         if presentOrFutureValuePickerView.selectedRow(inComponent: 0) == 0 {
-            // Case presentValue
-            // TODO: calculate values
-            let futureValue = 0.0
-            creditsArray.append(Credit(presentValue:  Double(presentOrFutureValueTextField.text!), futureValue: futureValue, termsAndPercentages: terms))
+            // Find futureValue
+            var futureValue = Double(presentOrFutureValueTextField.text!)
+            for term in terms {
+                let termStart = formatter.date(from: term.dateStart)!
+                let termEnd = formatter.date(from: term.dateEnd)!
+                futureValue = calculatePVOrFV(presentValue: futureValue, futureValue: nil, termStart: termStart, termEnd: termEnd, percentage: term.percentage!, inflation: term.inflation)
+            }
+            creditsArray.append(Credit(presentValue:  Double(presentOrFutureValueTextField.text!), futureValue: Double(round(100*futureValue!)/100), termsAndPercentages: terms))
         } else {
-            // Case futureValue
-            // TODO: calculate values
-            let presentValue = 0.0
-            creditsArray.append(Credit(presentValue: presentValue, futureValue: Double(presentOrFutureValueTextField.text!), termsAndPercentages: terms))
+            // Find presentValue
+            var presentValue = Double(presentOrFutureValueTextField.text!)
+            for term in terms {
+                let termStart = formatter.date(from: term.dateStart)!
+                let termEnd = formatter.date(from: term.dateEnd)!
+                presentValue = calculatePVOrFV(presentValue: nil, futureValue: presentValue, termStart: termStart, termEnd: termEnd, percentage: term.percentage!, inflation: term.inflation)
+            }
+            creditsArray.append(Credit(presentValue: Double(round(100*presentValue!)/100), futureValue: Double(presentOrFutureValueTextField.text!), termsAndPercentages: terms))
         }
         // MARK: - Refreshing the tableView from another ViewController
         NotificationCenter.default.post(name: NSNotification.Name(rawValue: "newDataNotif"), object: nil)

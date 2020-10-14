@@ -16,9 +16,11 @@ class TermTableViewCell: UITableViewCell, UITextFieldDelegate {
     @IBOutlet weak var startDateTermTextField: UITextField!
     @IBOutlet weak var endDateTermTextField: UITextField!
     @IBOutlet weak var percentageTermTextField: UITextField!
-    @IBOutlet weak var percenLabel: UILabel!
+    @IBOutlet weak var inflationTermTextField: UITextField!
+    @IBOutlet weak var inflationSwitch: UISwitch!
     
     let datePicker = UIDatePicker()
+    
     @objc func showDatePickerForStartDate() {
         datePicker.datePickerMode = .date
 
@@ -76,6 +78,11 @@ class TermTableViewCell: UITableViewCell, UITextFieldDelegate {
         startDateTermTextField.addTarget(self, action: #selector(showDatePickerForStartDate), for: .editingDidBegin)
         endDateTermTextField.delegate = self
         endDateTermTextField.addTarget(self, action: #selector(showDatePickerForEndDate), for: .editingDidBegin)
+        inflationSwitch.addTarget(self, action: #selector(inflationStatus(sender:)), for: .valueChanged)
+    }
+    
+    @objc func inflationStatus(sender: UISwitch!) {
+        inflationTermTextField.isUserInteractionEnabled = sender.isOn ? true : false
     }
     
     override func setSelected(_ selected: Bool, animated: Bool) {
