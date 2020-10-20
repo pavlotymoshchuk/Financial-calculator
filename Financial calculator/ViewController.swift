@@ -36,12 +36,12 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     }
     
     func addStartData() {
-        let term1 = Term(dateStart: "15.01.2020", dateEnd: "17.01.2020", percentage: 15)
-        let term2 = Term(dateStart: "15.02.2020", dateEnd: "17.02.2020", percentage: 13, inflation: 1)
-        let term3 = Term(dateStart: "15.03.2020", dateEnd: "17.03.2020", percentage: 11, inflation: 2.5)
-        creditsArray.append(Credit(presentValue: 10000, futureValue: 12000, termsAndPercentages: [term1]))
-        creditsArray.append(Credit(presentValue: 50000, futureValue: 80000, termsAndPercentages: [term1, term2]))
-        creditsArray.append(Credit(presentValue: 100000, futureValue: 120000, termsAndPercentages: [term1, term2, term3]))
+        let term1 = Term(dateStart: "15.01.2020", dateEnd: "17.01.2021", percentage: 15)
+        let term2 = Term(dateStart: "15.02.2021", dateEnd: "17.02.2022", percentage: 13, inflation: 3)
+        let term3 = Term(dateStart: "15.03.2022", dateEnd: "17.03.2023", percentage: 11, inflation: 10.5)
+        creditsArray.append(Credit(presentValue: 10000, futureValue: 11508.33, termsAndPercentages: [term1]))
+        creditsArray.append(Credit(presentValue: 50000, futureValue: 65717.89, termsAndPercentages: [term1, term2]))
+        creditsArray.append(Credit(presentValue: 100000, futureValue: 149643.67, termsAndPercentages: [term1, term2, term3]))
     }
     
     // MARK: - Число всіх рядків (numberOfRowsInSection)
@@ -58,7 +58,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                 cell.indexLabel?.text = String(indexPath.row+1)
                 cell.dateStartLabel?.text = item.termsAndPercentages[0].dateStart
                 cell.dateEndLabel?.text = item.termsAndPercentages[item.termsAndPercentages.count-1].dateEnd
-                cell.percentageLabel?.text = String(item.termsAndPercentages[0].percentage!) + "%"
+                cell.percentageLabel?.text = (item.averageDiscountRate != nil) ? String(item.averageDiscountRate!) + "%" : String(item.termsAndPercentages[0].percentage!) + "%"
                 cell.presentValueLabel?.text = (item.presentValue != nil) ? "PV="+String(item.presentValue!) : "Undefined"
                 cell.futureValueLabel?.text = (item.futureValue != nil) ? "FV="+String(item.futureValue!) : "Undefined"
             } else if item.termsAndPercentages.count == 1 {

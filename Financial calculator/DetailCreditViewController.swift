@@ -12,16 +12,14 @@ import AudioToolbox
 
 class DetailCreditViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, LineChartDelegate {
 
-    
     var label = UILabel()
     var lineChart: LineChart!
-    
-    
     
     @IBOutlet weak var creditTitleLabel: UILabel!
     @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var presentValueLabel: UILabel!
     @IBOutlet weak var futureValueLabel: UILabel!
+    @IBOutlet weak var averageDiscountRate: UILabel!
     @IBOutlet weak var detailCreditTableView: UITableView!
     @IBOutlet weak var graphViev: UIView!
     
@@ -41,11 +39,12 @@ class DetailCreditViewController: UIViewController, UITableViewDelegate, UITable
     
     func addingDataForViews() {
         detailCreditTableView.rowHeight = 82
-        detailCreditTableView.frame.size = CGSize(width: CGFloat(self.view.frame.width), height: CGFloat(creditsArray[creditIndex].termsAndPercentages.count * 85))
+        detailCreditTableView.frame.size = CGSize(width: CGFloat(self.view.frame.width), height: CGFloat((creditsArray[creditIndex].termsAndPercentages.count * Int(detailCreditTableView.rowHeight)) + 50))
         creditTitleLabel.text = "Credit №" + String(creditIndex+1)
         
         if let presVal = creditsArray[creditIndex].presentValue {
             presentValueLabel?.text = String(presVal)
+            corection = CGFloat(1 + (log10(presVal)/2))
         } else {
             presentValueLabel?.text = "Undef"
         }
@@ -54,6 +53,12 @@ class DetailCreditViewController: UIViewController, UITableViewDelegate, UITable
             futureValueLabel?.text = String(futVal)
         } else {
             futureValueLabel?.text = "Undef"
+        }
+        
+        if let avgDiscRate = creditsArray[creditIndex].averageDiscountRate {
+            averageDiscountRate?.text = String(avgDiscRate) + "%"
+        } else {
+            averageDiscountRate?.text = String(creditsArray[creditIndex].termsAndPercentages[0].percentage!) + "%"
         }
     }
     
@@ -108,6 +113,7 @@ class DetailCreditViewController: UIViewController, UITableViewDelegate, UITable
         lineChart.addLine(simpleValues)
         lineChart.addLine(valuesWithInflation)
         
+        lineChart.x.axis.inset *= corection
         lineChart.translatesAutoresizingMaskIntoConstraints = false
         lineChart.delegate = self
         graphViev.addSubview(lineChart)

@@ -19,11 +19,13 @@ struct Term {
 struct Credit {
     var presentValue: Double?
     var futureValue: Double?
+    var averageDiscountRate: Double?
     var termsAndPercentages: [Term]
 }
 
 var creditsArray: [Credit] = []
 var creditIndex = 0
+var corection: CGFloat = 3.5
 
 func calculatePVOrFV(presentValue: Double?, futureValue: Double?, termStart: Date, termEnd: Date, percentage: Double, inflation: Double?) -> Double? {
     var result: Double?
@@ -34,22 +36,47 @@ func calculatePVOrFV(presentValue: Double?, futureValue: Double?, termStart: Dat
     let termDuration = Double(countYears * 360 + countMonths * 30 + countDays) / 360
     if presentValue != nil {
         if let inflationValue = inflation {
-            result = presentValue! * (1 + (percentage / 100 * termDuration)) * (1 + (inflationValue / 100 * termDuration))
+            result = presentValue! / (1 + (percentage / 100 * termDuration)) * (1 + (inflationValue / 100 * termDuration))
         } else {
-            result = presentValue! * (1 + (percentage / 100 * termDuration))
+            result = presentValue! / (1 + (percentage / 100 * termDuration))
         }
     }
     if futureValue != nil {
         if let inflationValue = inflation {
-            result = futureValue! / (1 + (percentage / 100 * termDuration)) / (1 + (inflationValue / 100 * termDuration))
+            result = futureValue! * (1 + (percentage / 100 * termDuration)) / (1 + (inflationValue / 100 * termDuration))
         } else {
-            result = futureValue! / (1 + (percentage / 100 * termDuration))
+            result = futureValue! * (1 + (percentage / 100 * termDuration))
         }
     }
     if presentValue == nil && futureValue == nil {
         result = nil
     }
     return result
+}
+
+func calculateAverageDiscountRate(terms: [Term]) -> Double {
+    var averageDiscountRate = Double()
+    var sumDiscountRates: Double = 0
+    let calendar = Calendar.current
+    let formatter = DateFormatter()
+    formatter.dateFormat = "dd.MM.yyyy"
+    for term in terms {
+        let dateStart = formatter.date(from: term.dateStart)!
+        let dateEnd = formatter.date(from: term.dateEnd)!
+        let countDays = calendar.component(.day, from: dateEnd) - calendar.component(.day, from: dateStart)
+        let countMonths = calendar.component(.month, from: dateEnd) - calendar.component(.month, from: dateStart)
+        let countYears = calendar.component(.year, from: dateEnd) - calendar.component(.year, from: dateStart)
+        let termDuration = Double(countYears * 360 + countMonths * 30 + countDays)
+        sumDiscountRates += termDuration * term.percentage!
+    }
+    let dateStart = formatter.date(from: terms[0].dateStart)!
+    let dateEnd = formatter.date(from: terms[terms.count-1].dateEnd)!
+    let countDays = calendar.component(.day, from: dateEnd) - calendar.component(.day, from: dateStart)
+    let countMonths = calendar.component(.month, from: dateEnd) - calendar.component(.month, from: dateStart)
+    let countYears = calendar.component(.year, from: dateEnd) - calendar.component(.year, from: dateStart)
+    let totalTerm = Double(countYears * 360 + countMonths * 30 + countDays)
+    averageDiscountRate = sumDiscountRates / totalTerm
+    return Double(round(100*averageDiscountRate)/100)
 }
 
 @UIApplicationMain

@@ -96,7 +96,7 @@ class NewCreditController: UIViewController, UIPickerViewDelegate, UIPickerViewD
                 let termEnd = formatter.date(from: term.dateEnd)!
                 futureValue = calculatePVOrFV(presentValue: futureValue, futureValue: nil, termStart: termStart, termEnd: termEnd, percentage: term.percentage!, inflation: term.inflation)
             }
-            creditsArray.append(Credit(presentValue:  Double(presentOrFutureValueTextField.text!), futureValue: Double(round(100*futureValue!)/100), termsAndPercentages: terms))
+            creditsArray.append(Credit(presentValue:  Double(presentOrFutureValueTextField.text!), futureValue: Double(round(100*futureValue!)/100), averageDiscountRate: calculateAverageDiscountRate(terms: terms), termsAndPercentages: terms))
         } else {
             // Find presentValue
             var presentValue = Double(presentOrFutureValueTextField.text!)
@@ -105,7 +105,7 @@ class NewCreditController: UIViewController, UIPickerViewDelegate, UIPickerViewD
                 let termEnd = formatter.date(from: term.dateEnd)!
                 presentValue = calculatePVOrFV(presentValue: nil, futureValue: presentValue, termStart: termStart, termEnd: termEnd, percentage: term.percentage!, inflation: term.inflation)
             }
-            creditsArray.append(Credit(presentValue: Double(round(100*presentValue!)/100), futureValue: Double(presentOrFutureValueTextField.text!), termsAndPercentages: terms))
+            creditsArray.append(Credit(presentValue: Double(round(100*presentValue!)/100), futureValue: Double(presentOrFutureValueTextField.text!), averageDiscountRate: calculateAverageDiscountRate(terms: terms), termsAndPercentages: terms))
         }
         // MARK: - Refreshing the tableView from another ViewController
         NotificationCenter.default.post(name: NSNotification.Name(rawValue: "newDataNotif"), object: nil)
