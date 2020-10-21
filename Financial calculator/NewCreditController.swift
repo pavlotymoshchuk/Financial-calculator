@@ -10,7 +10,7 @@ import UIKit
 import AVFoundation
 import AudioToolbox
 
-class NewCreditController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UITableViewDelegate, UITableViewDataSource {
+class NewCreditController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate {
     
     @IBOutlet weak var termsTableView: UITableView!
     @IBOutlet weak var presentOrFutureValuePickerView: UIPickerView!
@@ -18,10 +18,16 @@ class NewCreditController: UIViewController, UIPickerViewDelegate, UIPickerViewD
     
     let presentOrFutureValueArray = ["PV", "FV"]  
     var numberOfRows = 1
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
+    }
         
     // MARK: - View Did Load
     override func viewDidLoad() {
         super.viewDidLoad()
+        presentOrFutureValueTextField.delegate = self
         termsTableView.rowHeight = 100
         var frame = termsTableView.frame
         frame.size.height = termsTableView.contentSize.height

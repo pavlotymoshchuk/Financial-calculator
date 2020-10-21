@@ -21,6 +21,11 @@ class TermTableViewCell: UITableViewCell, UITextFieldDelegate {
     
     let datePicker = UIDatePicker()
     
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
+    }
+    
     @objc func showDatePickerForStartDate() {
         datePicker.datePickerMode = .date
 
@@ -74,6 +79,8 @@ class TermTableViewCell: UITableViewCell, UITextFieldDelegate {
     
     override func awakeFromNib() {
         super.awakeFromNib()
+        percentageTermTextField.delegate = self
+        inflationTermTextField.delegate = self
         startDateTermTextField.delegate = self
         startDateTermTextField.addTarget(self, action: #selector(showDatePickerForStartDate), for: .editingDidBegin)
         endDateTermTextField.delegate = self
