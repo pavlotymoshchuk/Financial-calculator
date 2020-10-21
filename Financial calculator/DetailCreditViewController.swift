@@ -28,7 +28,7 @@ class DetailCreditViewController: UIViewController, UITableViewDelegate, UITable
 
         addingDataForViews()
         
-        scrollView.contentSize = CGSize(width: scrollView.bounds.width, height: scrollView.bounds.height * 1.5)
+        scrollView.contentSize = CGSize(width: scrollView.bounds.width, height: scrollView.bounds.height + detailCreditTableView.frame.size.height)
         
         addingGraph()
     }
