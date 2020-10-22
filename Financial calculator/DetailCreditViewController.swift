@@ -83,23 +83,18 @@ class DetailCreditViewController: UIViewController, UITableViewDelegate, UITable
         var xLabels: [String] = []
         let formatter = DateFormatter()
         formatter.dateFormat = "dd.MM.yyyy"
-        var presentValue = creditsArray[creditIndex].presentValue
-        var presentValueWithInflation = creditsArray[creditIndex].presentValue
-        
         for terms in creditsArray[creditIndex].termsAndPercentages {
-            let termStart = formatter.date(from: terms.dateStart)!
-            let termEnd = formatter.date(from: terms.dateEnd)!
-            
-            xLabels.append(formatter.string(from: termStart))
-            simpleValues.append(CGFloat(round(100*presentValue!)/100))
-            valuesWithInflation.append(CGFloat(round(100*presentValueWithInflation!)/100))
-            
-            presentValue = calculatePVOrFV(presentValue: presentValue, futureValue: nil, termStart: termStart, termEnd: termEnd, percentage: terms.percentage!, inflation: nil)
-            presentValueWithInflation = calculatePVOrFV(presentValue: presentValueWithInflation, futureValue: nil, termStart: termStart, termEnd: termEnd, percentage: terms.percentage!, inflation: terms.inflation)
-            
-            xLabels.append(formatter.string(from: termEnd))
-            simpleValues.append(CGFloat(round(100*presentValue!)/100))
-            valuesWithInflation.append(CGFloat(round(100*presentValueWithInflation!)/100))
+            xLabels.append(formatter.string(from: formatter.date(from: terms.dateStart)!))
+            xLabels.append(formatter.string(from: formatter.date(from: terms.dateEnd)!))
+        }
+        
+        let allDataForGraph = calculateDataForGraph(credit: creditsArray[creditIndex])
+        for i in 0 ..< allDataForGraph.count {
+            if i % 2 == 0 {
+                valuesWithInflation.append(allDataForGraph[i])
+            } else {
+                simpleValues.append(allDataForGraph[i])
+            }
         }
         
         lineChart = LineChart()

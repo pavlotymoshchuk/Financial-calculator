@@ -32,7 +32,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         tableСredits.addSubview(refresh)
         NotificationCenter.default.addObserver(self, selector: #selector(self.refreshing), name: NSNotification.Name(rawValue: "newDataNotif"), object: nil)
         // MARK: - Add data
-        addStartData()
+//        addStartData()
     }
     
     func addStartData() {

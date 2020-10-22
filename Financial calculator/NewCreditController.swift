@@ -56,6 +56,9 @@ class NewCreditController: UIViewController, UIPickerViewDelegate, UIPickerViewD
         let numberOfRowsMax = (UIScreen.main.bounds.height - termsTableView.frame.origin.y) / 100
         numberOfRows < Int(numberOfRowsMax) ? numberOfRows+=1 : alert(alertTitle: "Unable to add", alertMessage: "The maximum count of terms are reached", alertActionTitle: "Ok")
         self.termsTableView.reloadData()
+        let lastCell = termsTableView.cellForRow(at: IndexPath(row: numberOfRows-2, section: 0)) as? TermTableViewCell
+        let newCell = termsTableView.cellForRow(at: IndexPath(row: numberOfRows-1, section: 0)) as? TermTableViewCell
+        newCell?.startDateTermTextField?.text = lastCell?.endDateTermTextField?.text
     }
     
     // MARK: - Getting terms data and checking for invalid values
@@ -97,11 +100,7 @@ class NewCreditController: UIViewController, UIPickerViewDelegate, UIPickerViewD
         if presentOrFutureValuePickerView.selectedRow(inComponent: 0) == 0 {
             // Find futureValue
             var futureValue = Double(presentOrFutureValueTextField.text!)
-            for term in terms {
-                let termStart = formatter.date(from: term.dateStart)!
-                let termEnd = formatter.date(from: term.dateEnd)!
-                futureValue = calculatePVOrFV(presentValue: futureValue, futureValue: nil, termStart: termStart, termEnd: termEnd, percentage: term.percentage!, inflation: term.inflation)
-            }
+            futureValue = calculatePVOrFV(presentValue: futureValue, futureValue: nil, terms: terms)
             creditsArray.append(Credit(presentValue:  Double(presentOrFutureValueTextField.text!), futureValue: Double(round(100*futureValue!)/100), averageDiscountRate: calculateAverageDiscountRate(terms: terms), termsAndPercentages: terms))
         } else {
             // Find presentValue
@@ -109,7 +108,7 @@ class NewCreditController: UIViewController, UIPickerViewDelegate, UIPickerViewD
             for term in terms {
                 let termStart = formatter.date(from: term.dateStart)!
                 let termEnd = formatter.date(from: term.dateEnd)!
-                presentValue = calculatePVOrFV(presentValue: nil, futureValue: presentValue, termStart: termStart, termEnd: termEnd, percentage: term.percentage!, inflation: term.inflation)
+                presentValue = calculatePVOrFV(presentValue: nil, futureValue: presentValue, terms: terms)
             }
             creditsArray.append(Credit(presentValue: Double(round(100*presentValue!)/100), futureValue: Double(presentOrFutureValueTextField.text!), averageDiscountRate: calculateAverageDiscountRate(terms: terms), termsAndPercentages: terms))
         }
