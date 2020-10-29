@@ -71,7 +71,6 @@
 		04F79154252713E900829DF5 /* Financial calculator */ = {
 			isa = PBXGroup;
 			children = (
-				04F7916C252713FC00829DF5 /* Financial calculator.entitlements */,
 				04F79155252713E900829DF5 /* AppDelegate.swift */,
 				04F79157252713E900829DF5 /* SceneDelegate.swift */,
 				04F79159252713E900829DF5 /* ViewController.swift */,
@@ -86,6 +85,7 @@
 				04F79163252713EA00829DF5 /* LaunchScreen.storyboard */,
 				04F79166252713EA00829DF5 /* Info.plist */,
 				04F7915E252713E900829DF5 /* Financial_calculator.xcdatamodeld */,
+				04F7916C252713FC00829DF5 /* Financial calculator.entitlements */,
 			);
 			path = "Financial calculator";
 			sourceTree = "<group>";

@@ -83,8 +83,8 @@ class DetailCreditViewController: UIViewController, UITableViewDelegate, UITable
         var xLabels: [String] = []
         let formatter = DateFormatter()
         formatter.dateFormat = "dd.MM.yyyy"
+        xLabels.append(formatter.string(from: formatter.date(from: creditsArray[creditIndex].termsAndPercentages[0].dateStart)!))
         for terms in creditsArray[creditIndex].termsAndPercentages {
-            xLabels.append(formatter.string(from: formatter.date(from: terms.dateStart)!))
             xLabels.append(formatter.string(from: formatter.date(from: terms.dateEnd)!))
         }
         

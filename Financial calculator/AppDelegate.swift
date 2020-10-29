@@ -24,6 +24,7 @@ struct Credit {
 }
 
 var creditsArray: [Credit] = []
+
 var creditIndex = 0
 var corection: CGFloat = 3.5
 
@@ -41,7 +42,7 @@ func calculatePVOrFV(presentValue: Double?, futureValue: Double?, terms: [Term])
         let countYears = calendar.component(.year, from: termEnd) - calendar.component(.year, from: termStart)
         let termDuration = Double(countYears * 360 + countMonths * 30 + countDays) / 360
         if let inflationValue = term.inflation {
-            sumOfPercentage -= termDuration * (term.percentage! / 100 * inflationValue / 100) / (1 + (inflationValue / 100 * termDuration))  // termDuration * - ???
+            sumOfPercentage -= ((term.percentage! / 100) + (inflationValue / 100)) / (1 + (inflationValue / 100 * termDuration)) * termDuration
         } else {
             sumOfPercentage -= (term.percentage! / 100 * termDuration)
         }
@@ -60,29 +61,32 @@ func calculatePVOrFV(presentValue: Double?, futureValue: Double?, terms: [Term])
 
 func calculateDataForGraph(credit: Credit) -> [CGFloat] {
     var result = [CGFloat]()
-    var curentValue = credit.presentValue!
-    var curentValueWithInflation = credit.presentValue!
-    result.append(CGFloat(round(100*curentValueWithInflation)/100))
-    result.append(CGFloat(round(100*curentValue)/100))
+    result.append(CGFloat(round(100*credit.presentValue!)/100))
+    result.append(CGFloat(round(100*credit.presentValue!)/100))
+    var sumOfPercentage: Double = 1
+    var sumOfPercentageWithInflations: Double = 1
     let calendar = Calendar.current
     let formatter = DateFormatter()
     formatter.dateFormat = "dd.MM.yyyy"
-    for term in credit.termsAndPercentages {
-        let termStart = formatter.date(from: term.dateStart)!
-        let termEnd = formatter.date(from: term.dateEnd)!
-        let countDays = calendar.component(.day, from: termEnd) - calendar.component(.day, from: termStart)
-        let countMonths = calendar.component(.month, from: termEnd) - calendar.component(.month, from: termStart)
-        let countYears = calendar.component(.year, from: termEnd) - calendar.component(.year, from: termStart)
-        let termDuration = Double(countYears * 360 + countMonths * 30 + countDays) / 360
-        if let inflationValue = term.inflation {
-            curentValueWithInflation /= 1 - termDuration * (term.percentage! / 100 * inflationValue / 100) / (1 + (inflationValue / 100 * termDuration))
-            result.append(CGFloat(round(100*curentValueWithInflation)/100))
-        } else {
-            curentValueWithInflation /= 1 - (term.percentage! / 100 * termDuration)
-            result.append(CGFloat(round(100*curentValueWithInflation)/100))
+    for i in 1 ... credit.termsAndPercentages.count {
+        for j in 0 ..< i  {
+            let termStart = formatter.date(from: credit.termsAndPercentages[j].dateStart)!
+            let termEnd = formatter.date(from: credit.termsAndPercentages[j].dateEnd)!
+            let countDays = calendar.component(.day, from: termEnd) - calendar.component(.day, from: termStart)
+            let countMonths = calendar.component(.month, from: termEnd) - calendar.component(.month, from: termStart)
+            let countYears = calendar.component(.year, from: termEnd) - calendar.component(.year, from: termStart)
+            let termDuration = Double(countYears * 360 + countMonths * 30 + countDays) / 360
+            if let inflationValue = credit.termsAndPercentages[j].inflation {
+                sumOfPercentageWithInflations -= termDuration * (credit.termsAndPercentages[j].percentage! / 100 + inflationValue / 100) / (1 + (inflationValue / 100 * termDuration))
+            } else {
+                sumOfPercentageWithInflations -= (credit.termsAndPercentages[j].percentage! / 100 * termDuration)
+            }
+            sumOfPercentage -= (credit.termsAndPercentages[j].percentage! / 100 * termDuration)
         }
-        curentValue /= 1 - (term.percentage! / 100 * termDuration)
-        result.append(CGFloat(round(100*curentValue)/100))
+        result.append(CGFloat(round(100 * (credit.presentValue! / sumOfPercentage) )/100))
+        result.append(CGFloat(round(100 * (credit.presentValue! / sumOfPercentageWithInflations) )/100))
+        sumOfPercentage = 1
+        sumOfPercentageWithInflations = 1
     }
     return result
 }

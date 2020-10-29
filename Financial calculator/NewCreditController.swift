@@ -105,11 +105,7 @@ class NewCreditController: UIViewController, UIPickerViewDelegate, UIPickerViewD
         } else {
             // Find presentValue
             var presentValue = Double(presentOrFutureValueTextField.text!)
-            for term in terms {
-                let termStart = formatter.date(from: term.dateStart)!
-                let termEnd = formatter.date(from: term.dateEnd)!
-                presentValue = calculatePVOrFV(presentValue: nil, futureValue: presentValue, terms: terms)
-            }
+            presentValue = calculatePVOrFV(presentValue: nil, futureValue: presentValue, terms: terms)
             creditsArray.append(Credit(presentValue: Double(round(100*presentValue!)/100), futureValue: Double(presentOrFutureValueTextField.text!), averageDiscountRate: calculateAverageDiscountRate(terms: terms), termsAndPercentages: terms))
         }
         // MARK: - Refreshing the tableView from another ViewController
@@ -178,12 +174,12 @@ class NewCreditController: UIViewController, UIPickerViewDelegate, UIPickerViewD
     
     // MARK: - Make ALERT
     func alert(alertTitle: String, alertMessage: String, alertActionTitle: String) {
-    AudioServicesPlaySystemSound(SystemSoundID(4095))
-    let alert = UIAlertController(title: alertTitle, message: alertMessage, preferredStyle: .alert)
-    let action = UIAlertAction(title: alertActionTitle, style: .cancel) { (action) in }
-    alert.addAction(action)
-    self.present(alert, animated: true, completion: nil)
-}
+        AudioServicesPlaySystemSound(SystemSoundID(4095))
+        let alert = UIAlertController(title: alertTitle, message: alertMessage, preferredStyle: .alert)
+        let action = UIAlertAction(title: alertActionTitle, style: .cancel) { (action) in }
+        alert.addAction(action)
+        self.present(alert, animated: true, completion: nil)
+    }
     
     // MARK: - Число всіх рядків (numberOfRowsInSection)
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
