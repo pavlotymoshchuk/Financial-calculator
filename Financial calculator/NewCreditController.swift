@@ -101,7 +101,7 @@ class NewCreditController: UIViewController, UIPickerViewDelegate, UIPickerViewD
             // Find futureValue
             var futureValue = Double(presentOrFutureValueTextField.text!)
             futureValue = calculatePVOrFV(presentValue: futureValue, futureValue: nil, terms: terms)
-            creditsArray.append(Credit(presentValue:  Double(presentOrFutureValueTextField.text!), futureValue: Double(round(100*futureValue!)/100), averageDiscountRate: calculateAverageDiscountRate(terms: terms), termsAndPercentages: terms))
+            creditsArray.append(Credit(presentValue: Double(presentOrFutureValueTextField.text!), futureValue: Double(round(100*futureValue!)/100), averageDiscountRate: calculateAverageDiscountRate(terms: terms), termsAndPercentages: terms))
         } else {
             // Find presentValue
             var presentValue = Double(presentOrFutureValueTextField.text!)

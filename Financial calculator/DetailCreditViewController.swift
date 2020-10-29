@@ -10,16 +10,18 @@ import UIKit
 import AVFoundation
 import AudioToolbox
 
-class DetailCreditViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, LineChartDelegate {
+class DetailCreditViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, LineChartDelegate, UITextFieldDelegate {
+    
 
     var label = UILabel()
     var lineChart: LineChart!
     
     @IBOutlet weak var creditTitleLabel: UILabel!
     @IBOutlet weak var scrollView: UIScrollView!
-    @IBOutlet weak var presentValueLabel: UILabel!
-    @IBOutlet weak var futureValueLabel: UILabel!
-    @IBOutlet weak var averageDiscountRate: UILabel!
+    
+    @IBOutlet weak var presentValueTextField: UITextField!
+    @IBOutlet weak var futureValueTextField: UITextField!
+    @IBOutlet weak var averageDiscountRateTextField: UITextField!
     @IBOutlet weak var detailCreditTableView: UITableView!
     @IBOutlet weak var graphViev: UIView!
     
@@ -41,24 +43,27 @@ class DetailCreditViewController: UIViewController, UITableViewDelegate, UITable
         detailCreditTableView.rowHeight = 82
         detailCreditTableView.frame.size = CGSize(width: CGFloat(self.view.frame.width), height: CGFloat((creditsArray[creditIndex].termsAndPercentages.count * Int(detailCreditTableView.rowHeight)) + 50))
         creditTitleLabel.text = "Credit №" + String(creditIndex+1)
+        averageDiscountRateTextField.isEnabled = false
+        presentValueTextField.delegate = self
+        futureValueTextField.delegate = self
         
         if let presVal = creditsArray[creditIndex].presentValue {
-            presentValueLabel?.text = String(presVal)
+            presentValueTextField?.text = String(presVal)
             corection = CGFloat(1 + (log10(presVal)/2))
         } else {
-            presentValueLabel?.text = "Undef"
+            presentValueTextField?.text = "Undef"
         }
         
         if let futVal = creditsArray[creditIndex].futureValue {
-            futureValueLabel?.text = String(futVal)
+            futureValueTextField?.text = String(futVal)
         } else {
-            futureValueLabel?.text = "Undef"
+            futureValueTextField?.text = "Undef"
         }
         
         if let avgDiscRate = creditsArray[creditIndex].averageDiscountRate {
-            averageDiscountRate?.text = String(avgDiscRate) + "%"
+            averageDiscountRateTextField?.text = String(avgDiscRate) + "%"
         } else {
-            averageDiscountRate?.text = String(creditsArray[creditIndex].termsAndPercentages[0].percentage!) + "%"
+            averageDiscountRateTextField?.text = String(creditsArray[creditIndex].termsAndPercentages[0].percentage!) + "%"
         }
     }
     
@@ -118,9 +123,47 @@ class DetailCreditViewController: UIViewController, UITableViewDelegate, UITable
         
     }
     
-    func draw(_ rect: CGRect) {
+    @IBAction func recalculateButton(_ sender: UIButton) {
+        for i in 0 ..< creditsArray[creditIndex].termsAndPercentages.count {
+            if let cell = detailCreditTableView.cellForRow(at: IndexPath(row: i, section: 0)) as? DetailCreditTermsTableViewCell {
+                cell.percentageTextField.delegate = self
+                cell.inflationTextField.delegate = self
+                let editedPercentage = Double((cell.percentageTextField.text?.replacingOccurrences(of: "%", with: ""))!)
+                creditsArray[creditIndex].termsAndPercentages[i].percentage = editedPercentage
+                
+                let editedInflation = Double((cell.inflationTextField?.text?.replacingOccurrences(of: "%", with: "", options: .regularExpression, range: nil))!)
+                creditsArray[creditIndex].termsAndPercentages[i].inflation = editedInflation
+            }
+        }
+        let newPresentValue = Double((presentValueTextField?.text)!)
+        let isPresentValueChanged = newPresentValue != creditsArray[creditIndex].presentValue!
+        
+        let newFutureValue = Double((futureValueTextField?.text)!)
+        let isFutureValueChanged = newFutureValue != creditsArray[creditIndex].futureValue!
+        
+        creditsArray[creditIndex].averageDiscountRate = calculateAverageDiscountRate(terms: creditsArray[creditIndex].termsAndPercentages)
+        
+        if isPresentValueChanged && !isFutureValueChanged {
+            creditsArray[creditIndex].futureValue = calculatePVOrFV(presentValue: newPresentValue, futureValue: nil, terms: creditsArray[creditIndex].termsAndPercentages)
+            creditsArray[creditIndex].presentValue = newPresentValue
+            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "newDataNotif"), object: nil)
+            dismiss(animated: true, completion: nil)
+        } else if !isPresentValueChanged && isFutureValueChanged {
+            creditsArray[creditIndex].presentValue = calculatePVOrFV(presentValue: nil, futureValue: newFutureValue, terms: creditsArray[creditIndex].termsAndPercentages)
+            creditsArray[creditIndex].futureValue = newFutureValue
+            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "newDataNotif"), object: nil)
+            dismiss(animated: true, completion: nil)
+        } else if !isPresentValueChanged && !isFutureValueChanged {
+            // TODO:
+            creditsArray[creditIndex].futureValue = calculatePVOrFV(presentValue: newPresentValue, futureValue: nil, terms: creditsArray[creditIndex].termsAndPercentages)
+            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "newDataNotif"), object: nil)
+            dismiss(animated: true, completion: nil)
+        } else { //if isPresentValueChanged && isFutureValueChanged {
+            alert(alertTitle: "Unable to save", alertMessage: "PV and FV both changed", alertActionTitle: "Retry")
+        }
         
     }
+    
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return creditsArray[creditIndex].termsAndPercentages.count
@@ -131,8 +174,8 @@ class DetailCreditViewController: UIViewController, UITableViewDelegate, UITable
             cell.numberLabel?.text = String(indexPath.row+1)
             cell.termStartLabel?.text = creditsArray[creditIndex].termsAndPercentages[indexPath.row].dateStart
             cell.termEndLabel?.text = creditsArray[creditIndex].termsAndPercentages[indexPath.row].dateEnd
-            cell.percentageLabel?.text = String(creditsArray[creditIndex].termsAndPercentages[indexPath.row].percentage!) + "%"
-            cell.inflationLabel?.text = (creditsArray[creditIndex].termsAndPercentages[indexPath.row].inflation != nil) ? String(creditsArray[creditIndex].termsAndPercentages[indexPath.row].inflation!) + "%" : "-"
+            cell.percentageTextField?.text = String(creditsArray[creditIndex].termsAndPercentages[indexPath.row].percentage!) + "%"
+            cell.inflationTextField?.text = (creditsArray[creditIndex].termsAndPercentages[indexPath.row].inflation != nil) ? String(creditsArray[creditIndex].termsAndPercentages[indexPath.row].inflation!) + "%" : "-"
             return cell
         }
         return UITableViewCell()
@@ -153,5 +196,15 @@ class DetailCreditViewController: UIViewController, UITableViewDelegate, UITable
             chart.setNeedsDisplay()
         }
     }
+        
+    // MARK: - Make ALERT
+    func alert(alertTitle: String, alertMessage: String, alertActionTitle: String) {
+        AudioServicesPlaySystemSound(SystemSoundID(4095))
+        let alert = UIAlertController(title: alertTitle, message: alertMessage, preferredStyle: .alert)
+        let action = UIAlertAction(title: alertActionTitle, style: .cancel) { (action) in }
+        alert.addAction(action)
+        self.present(alert, animated: true, completion: nil)
+    }
+        
     
 }

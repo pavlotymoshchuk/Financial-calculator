@@ -8,17 +8,21 @@
 
 import UIKit
 
-class DetailCreditTermsTableViewCell: UITableViewCell {
+class DetailCreditTermsTableViewCell: UITableViewCell, UITextFieldDelegate {
     
     @IBOutlet weak var numberLabel: UILabel!
     @IBOutlet weak var termStartLabel: UILabel!
     @IBOutlet weak var termEndLabel: UILabel!
-    @IBOutlet weak var percentageLabel: UILabel!
-    @IBOutlet weak var inflationLabel: UILabel!
+    
+    @IBOutlet weak var percentageTextField: UITextField!
+    @IBOutlet weak var inflationTextField: UITextField!
+    
     
     
     override func awakeFromNib() {
         super.awakeFromNib()
+        percentageTextField.delegate = self
+        inflationTextField.delegate = self
     }
     
     override func setSelected(_ selected: Bool, animated: Bool) {
