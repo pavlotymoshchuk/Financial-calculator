@@ -35,15 +35,6 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
 //        addStartData()
     }
     
-    func addStartData() {
-        let term1 = Term(dateStart: "15.01.2020", dateEnd: "17.01.2021", percentage: 15)
-        let term2 = Term(dateStart: "15.02.2021", dateEnd: "17.02.2022", percentage: 13, inflation: 3)
-        let term3 = Term(dateStart: "15.03.2022", dateEnd: "17.03.2023", percentage: 11, inflation: 10.5)
-        creditsArray.append(Credit(presentValue: 10000, futureValue: 8689.36, termsAndPercentages: [term1]))
-        creditsArray.append(Credit(presentValue: 50000, futureValue: 38423.92, termsAndPercentages: [term1, term2]))
-        creditsArray.append(Credit(presentValue: 100000, futureValue: 69194.19, termsAndPercentages: [term1, term2, term3]))
-    }
-    
     // MARK: - Число всіх рядків (numberOfRowsInSection)
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return creditsArray.count

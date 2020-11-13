@@ -11,7 +11,6 @@ import AVFoundation
 import AudioToolbox
 
 class DetailCreditViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, LineChartDelegate, UITextFieldDelegate {
-    
 
     var label = UILabel()
     var lineChart: LineChart!
@@ -155,10 +154,16 @@ class DetailCreditViewController: UIViewController, UITableViewDelegate, UITable
             dismiss(animated: true, completion: nil)
         } else if !isPresentValueChanged && !isFutureValueChanged {
             // TODO:
-            creditsArray[creditIndex].futureValue = calculatePVOrFV(presentValue: newPresentValue, futureValue: nil, terms: creditsArray[creditIndex].termsAndPercentages)
+            if creditsArray[creditIndex].mainValue == 0 {
+                creditsArray[creditIndex].futureValue = calculatePVOrFV(presentValue: newPresentValue, futureValue: nil, terms: creditsArray[creditIndex].termsAndPercentages)
+            } else {
+                creditsArray[creditIndex].presentValue = calculatePVOrFV(presentValue: nil, futureValue: newFutureValue, terms: creditsArray[creditIndex].termsAndPercentages)
+            }
             NotificationCenter.default.post(name: NSNotification.Name(rawValue: "newDataNotif"), object: nil)
             dismiss(animated: true, completion: nil)
-        } else { //if isPresentValueChanged && isFutureValueChanged {
+        } else {
+            presentValueTextField?.text = String(creditsArray[creditIndex].presentValue!)
+            futureValueTextField?.text = String(creditsArray[creditIndex].futureValue!)
             alert(alertTitle: "Unable to save", alertMessage: "PV and FV both changed", alertActionTitle: "Retry")
         }
         

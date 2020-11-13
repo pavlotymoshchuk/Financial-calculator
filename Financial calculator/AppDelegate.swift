@@ -20,6 +20,7 @@ struct Credit {
     var presentValue: Double?
     var futureValue: Double?
     var averageDiscountRate: Double?
+    var mainValue: Int
     var termsAndPercentages: [Term]
 }
 
@@ -56,13 +57,18 @@ func calculatePVOrFV(presentValue: Double?, futureValue: Double?, terms: [Term])
     if presentValue == nil && futureValue == nil {
         result = nil
     }
-    return result
+    return Double(round(100*result!)/100)
 }
 
 func calculateDataForGraph(credit: Credit) -> [CGFloat] {
     var result = [CGFloat]()
-    result.append(CGFloat(round(100*credit.presentValue!)/100))
-    result.append(CGFloat(round(100*credit.presentValue!)/100))
+    if credit.mainValue == 0 {
+        result.append(CGFloat(round(100*credit.presentValue!)/100))
+        result.append(CGFloat(round(100*credit.presentValue!)/100))
+    } else {
+        result.append(CGFloat(round(100*credit.futureValue!)/100))
+        result.append(CGFloat(round(100*credit.futureValue!)/100))
+    }
     var sumOfPercentage: Double = 1
     var sumOfPercentageWithInflations: Double = 1
     let calendar = Calendar.current
@@ -83,10 +89,22 @@ func calculateDataForGraph(credit: Credit) -> [CGFloat] {
             }
             sumOfPercentage -= (credit.termsAndPercentages[j].percentage! / 100 * termDuration)
         }
-        result.append(CGFloat(round(100 * (credit.presentValue! / sumOfPercentage) )/100))
-        result.append(CGFloat(round(100 * (credit.presentValue! / sumOfPercentageWithInflations) )/100))
+        if credit.mainValue == 0 {
+            result.append(CGFloat(round(100 * (credit.presentValue! / sumOfPercentage) )/100))
+            result.append(CGFloat(round(100 * (credit.presentValue! / sumOfPercentageWithInflations) )/100))
+        } else {
+            result.append(CGFloat(round(100 * (credit.futureValue! * sumOfPercentageWithInflations) )/100))
+            result.append(CGFloat(round(100 * (credit.futureValue! * sumOfPercentage) )/100))
+        }
         sumOfPercentage = 1
         sumOfPercentageWithInflations = 1
+    }
+    if credit.mainValue == 1 {
+        var resultInversion = [CGFloat]()
+        for i in 0 ..< result.count {
+            resultInversion.append(result[result.count-1-i])
+        }
+        result = resultInversion
     }
     return result
 }
